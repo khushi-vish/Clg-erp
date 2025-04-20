@@ -1,0 +1,56 @@
+Admin Panel – controls everything.
+
+Student Module – view profile, marks, attendance, etc.
+
+Teacher Module – update marks, attendance, upload notes.
+
+Fee Management – fee status, payment, receipts.
+
+Library Module – book issue/return info.
+
+Timetable Management – see class schedule.
+
+Notifications/Notices – for updates/events.
+
+
+----------------------------------------------------
+
+
+attendance
+result (marks)
+timetable + syllabus 
+assignment, notes
+fee status
+notice and announcement 🔔 ---- nav
+exam schedule
+
+
+student:
+my profile - schlor no, course, enrollment no, name 
+attendance - check attendance
+my marks 
+timetable
+assignement & notes
+fee status
+notice and announcement
+exam schedule
+
+
+teacher:
+student attendace 
+upload marks 
+upload notes/assignement
+class timetable 
+announment
+student list - fiter by class subject 
+update list 
+
+admin 
+manage users
+manage subject/courses
+fee collection system 
+assign teachers to classes
+update timetable 
+reports -> attendance reports, marksheets 
+role management - change user roles
+post announcements
