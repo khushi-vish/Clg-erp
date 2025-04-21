@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= role %> Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="profile-section">
+        <img src="https://placehold.co/100x100" alt="Profile Image" />
+        <h3><%= role.charAt(0).toUpperCase() + role.slice(1) %></h3>
+      </div>
+
+      <div class="sidebar-links">
+        <!-- admin  -------------------------------- -->
+        <% if (role === "admin") { %>
+        <a href="/admin/dashboard" class="active">
+          <i class="fas fa-home"></i>
+          Dashboard
+        </a>
+        <a href="#">
+          <i class="fas fa-user-edit"></i>
+          Update Profile
+        </a>
+        <a href="#">
+          <i class="fas fa-plus-circle"></i>
+          Add Course
+        </a>
+        <a href="#">
+          <i class="fas fa-tasks"></i>
+          Manage Course
+        </a>
+        <a href="#">
+          <i class="fas fa-plus-circle"></i>
+          Add Subject
+        </a>
+        <a href="#">
+          <i class="fas fa-tasks"></i>
+          Manage Subject
+        </a>
+        <a href="#">
+          <i class="fas fa-user-plus"></i>
+          Add Student
+        </a>
+        <a href="#">
+          <i class="fas fa-users-cog"></i>
+          Manage Student
+        </a>
+        <a href="#">
+          <i class="fas fa-chalkboard-teacher"></i>
+          Add Teacher
+        </a>
+        <a href="#">
+          <i class="fas fa-users-cog"></i>
+          Manage Teacher
+        </a>
+        <a href="#">
+          <i class="fas fa-bell"></i>
+          Notification
+        </a>
+        <a href="/logout">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </a>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <% } %>
+
+        <!-- student -------------------------------- -->
+        <% if (role === 'student') { %>
+        <a href="/student/dashboard" class="active">
+          <i class="fas fa-home"></i>
+          Dashboard
+        </a>
+
+        <a href="#">
+          <i class="fas fa-user-edit"></i>
+          Update Profile
+        </a>
+
+        <a href="#">
+          <i class="fas fa-bullhorn"></i>
+          Announcement
+        </a>
+
+        <a href="#">
+          <i class="fas fa-calendar-alt"></i>
+          Timetable
+        </a>
+
+        <a href="#">
+          <i class="fas fa-book"></i>
+          Assignment / Notes
+        </a>
+
+        <a href="#">
+          <i class="fas fa-money-bill-wave"></i>
+          Fee Status
+        </a>
+
+        <a href="#">
+          <i class="fas fa-chart-bar"></i>
+          Result
+        </a>
+
+        <a href="#">
+          <i class="fas fa-calendar-check"></i>
+          Exam Schedule
+        </a>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <% } %>
+
+        <!-- teacher --------------------------------  -->
+        <% if (role === 'teacher' ) { %>
+        <a href="/teacher/dashboard" class="active">
+          <i class="fas fa-home"></i>
+          Dashboard
+        </a>
+
+        <a href="#">Update Profile</a>
+        <a href="#">add Result</a>
+        <a href="#">edit Result</a>
+        <a href="#">view Attendance</a>
+        <a href="#">Update Attendance</a>
+        <a href="#">notification</a>
+        <a href="#">upload Notes / Assignment</a>
+        <a href="#">add timetable</a>
+        <a href="#">student announcement</a>
+        <a href="#">student list</a>
+        <br />
+        <br />
+        <br />
+
+        <% } %>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1><%= role.charAt(0).toUpperCase() + role.slice(1) %> Dashboard</h1>
+        <form action="/logout" method="GET">
+          <button type="submit" class="logout-btn">Logout</button>
+        </form>
+      </div>
+
+      <% if (error) { %>
+      <div class="card" style="color: red"><%= error %></div>
+      <% } %>
+
+      <!-- admin dashboard -->
+      <% if (role === 'admin') { %>
+      <div class="card">
+        <h2>Welcome, Admin</h2>
+        <p>You have full access to manage the college ERP system.</p>
+      </div>
+
+      <div class="card">total students</div>
+      <div class="card">total teachers</div>
+      <div class="card">total course</div>
+      <div class="card">total subjects</div>
+      <% } %>
+
+      <!-- student dashboard -->
+
+      <% if (role === 'student' && user) { %>
+      <div class="card">
+        <p><strong>Name:</strong> <%= user.name %></p>
+        <p><strong>Roll Number:</strong> <%= user.rollNumber %></p>
+        <p><strong>Email:</strong> <%= user.email %></p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <h3>Attendance</h3>
+          <p><%= user.attendance.attended %> / <%= user.attendance.total %></p>
+          <p>
+            <%= Math.round((user.attendance.attended / user.attendance.total) *
+            100) || 0 %>%
+          </p>
+        </div>
+        <div class="stat-card">
+          <h3>Fee Status</h3>
+          <p><%= user.fees.status %></p>
+          <p>Amount: ₹<%= user.fees.amount || 0 %></p>
+        </div>
+      </div>
+
+      <% if (user.results && user.results.length > 0) { %>
+      <div class="card">
+        <h2>Results</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Marks Obtained</th>
+              <th>Total Marks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% user.results.forEach(result => { %>
+            <tr>
+              <td><%= result.subject %></td>
+              <td><%= result.marksObtained %></td>
+              <td><%= result.totalMarks %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <% } %> <% } %>
+
+      <!-- teacher dashboard -->
+
+      <% if (role === 'teacher' && user) { %>
+      <div class="card">
+        <h2>Teacher Information</h2>
+        <p><strong>Name:</strong> <%= user.name %></p>
+        <p><strong>Email:</strong> <%= user.email %></p>
+      </div>
+
+      <% if (user.courses && user.courses.length > 0) { %>
+      <div class="card">
+        <h2>Courses</h2>
+        <ul>
+          <% user.courses.forEach(course => { %>
+          <li><%= course.name %></li>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %> <% if (user.subjects && user.subjects.length > 0) { %>
+      <div class="card">
+        <h2>Subjects</h2>
+        <ul>
+          <% user.subjects.forEach(subject => { %>
+          <li><%= subject.name %></li>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %> <% } %>
+    </div>
+  </body>
+</html>
