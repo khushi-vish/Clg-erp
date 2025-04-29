@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= role %> Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/form.css" />
+  </head>
+  <body>
+    <%- include("include/sidebar.ejs") %>
+
+    <div class="container">
+      <div class="header">
+        <h1>Course Form</h1>
+        <form action="/logout" method="GET">
+          <button type="submit" class="logout-btn">Logout</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Add New Course</h2>
+        <% if (error) { %>
+        <div class="message error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span><%= error %></span>
+        </div>
+        <% } %> <% if (success) { %>
+        <div class="message success-message">
+          <i class="fas fa-check-circle"></i>
+          <span><%= success %></span>
+        </div>
+        <script>
+          setTimeout(() => {
+            document.querySelector(".success-message").style.opacity = "0";
+            setTimeout(() => {
+              document.querySelector(".success-message").style.display = "none";
+            }, 500);
+          }, 3000);
+        </script>
+        <% } %>
+        <form action="/admin/course/add" method="POST">
+          <div class="form-group">
+            <label for="course-name">Course Name</label>
+            <input type="text" id="course-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="course-code">Course Code</label>
+            <input type="text" id="course-code" name="code" required />
+          </div>
+          <div class="form-group">
+            <label for="subjects">Subjects</label>
+            <select id="subjects" name="subjects" multiple>
+              s<% for(subject of subjects){ %>
+              <option value="<%= subject._id %>">
+                <%= subject.name %> [<%= subject.code %>]
+              </option>
+              <% } %>
+            </select>
+            <small>Hold Ctrl/Cmd to select multiple subjects</small>
+          </div>
+          <button type="submit" class="btn">Add Course</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

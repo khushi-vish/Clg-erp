@@ -11,16 +11,6 @@ const subjectSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Course",
-  },
-
-  teacher: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Teacher",
-  },
 });
 
 const Subject = mongoose.model("Subject", subjectSchema);

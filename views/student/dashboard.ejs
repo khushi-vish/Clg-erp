@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= role %> Dashboard</title>
     <link rel="stylesheet" href="/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
+    <%- include("include/sidebar.ejs") %>
+
     <div class="container">
       <div class="header">
         <h1><%= role.charAt(0).toUpperCase() + role.slice(1) %> Dashboard</h1>
@@ -17,14 +26,25 @@
 
       <% if (error) { %>
       <div class="card" style="color: red"><%= error %></div>
-      <% } %> <% if (role === 'admin') { %>
+      <% } %>
+
+      <!-- admin dashboard -->
+      <% if (role === 'admin') { %>
       <div class="card">
         <h2>Welcome, Admin</h2>
         <p>You have full access to manage the college ERP system.</p>
       </div>
-      <% } %> <% if (role === 'student' && user) { %>
+
+      <div class="card">total students</div>
+      <div class="card">total teachers</div>
+      <div class="card">total course</div>
+      <div class="card">total subjects</div>
+      <% } %>
+
+      <!-- student dashboard -->
+
+      <% if (role === 'student' && user) { %>
       <div class="card">
-        <h2>Student Information</h2>
         <p><strong>Name:</strong> <%= user.name %></p>
         <p><strong>Roll Number:</strong> <%= user.rollNumber %></p>
         <p><strong>Email:</strong> <%= user.email %></p>
@@ -68,7 +88,22 @@
           </tbody>
         </table>
       </div>
-      <% } %> <% } %> <% if (role === 'teacher' && user) { %>
+
+      <% } %> <% if (user.course && user.course.subjects &&
+      user.course.subjects.length > 0) { %>
+      <div class="card">
+        <h2>Subjects</h2>
+        <ul>
+          <% user.course.subjects.forEach(subject => { %>
+          <li><%= subject.name %></li>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %> <% } %>
+
+      <!-- teacher dashboard -->
+
+      <% if (role === 'teacher' && user) { %>
       <div class="card">
         <h2>Teacher Information</h2>
         <p><strong>Name:</strong> <%= user.name %></p>

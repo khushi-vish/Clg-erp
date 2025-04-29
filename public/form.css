@@ -1,0 +1,142 @@
+.card {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.card h2 {
+  /* color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem; */
+
+  color: #6395c7;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  margin-top: 0;
+
+  border-bottom: 1px solid #80808069;
+  padding-bottom: 9px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333434;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 93%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Select element styling */
+.form-group select {
+  background-color: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+}
+
+/* Style for options */
+.form-group select option {
+  padding: 0.5rem;
+  min-height: 1.5rem;
+  color: #616090;
+}
+
+/* Style for multiple select */
+.form-group select[multiple] {
+  height: auto;
+  min-height: 100px;
+}
+
+/* Style for selected options in multiple select */
+.form-group select[multiple] option:checked {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Style for the small helper text */
+.form-group small {
+  display: block;
+  text-align: right;
+  color: #e15656;
+  margin-top: 0.25rem;
+}
+
+/* Message styling */
+.message {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #e15656;
+  border-left: 4px solid #e15656;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #2ecc71;
+  border-left: 4px solid #2ecc71;
+  transition: opacity 0.5s ease-out;
+}
+
+.message i {
+  font-size: 1.2rem;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.btn {
+  background: #3498db;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn:hover {
+  background: #2980b9;
+}

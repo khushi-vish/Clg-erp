@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= role %> Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/form.css" />
+  </head>
+  <body>
+    <%- include("include/sidebar.ejs") %>
+
+    <div class="container">
+      <div class="header">
+        <h1>Student Form</h1>
+        <form action="/logout" method="GET">
+          <button type="submit" class="logout-btn">Logout</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Add New Student</h2>
+        <% if (error) { %>
+        <div class="message error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span><%= error %></span>
+        </div>
+        <% } %> <% if (success) { %>
+        <div class="message success-message">
+          <i class="fas fa-check-circle"></i>
+          <span><%= success %></span>
+        </div>
+        <script>
+          setTimeout(() => {
+            document.querySelector(".success-message").style.opacity = "0";
+            setTimeout(() => {
+              document.querySelector(".success-message").style.display = "none";
+            }, 500);
+          }, 3000);
+        </script>
+        <% } %>
+        <form action="/admin/student/add" method="POST">
+          <div class="form-group">
+            <label for="student-name">Student Name</label>
+            <input type="text" id="student-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="roll-number">Roll Number</label>
+            <input type="text" id="roll-number" name="rollNumber" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <div class="form-group">
+            <label for="course">Course</label>
+            <select id="course" name="course" required>
+              <option value="">Select a course</option>
+              <% for(course of courses){ %>
+              <option value="<%= course._id %>">
+                <%= course.name %> [<%= course.code %>]
+              </option>
+              <% } %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fees-amount">Fees Amount</label>
+            <input type="number" id="fees-amount" name="fees.amount" required />
+          </div>
+          <div class="form-group">
+            <label for="fees-due-date">Fees Due Date</label>
+            <input
+              type="date"
+              id="fees-due-date"
+              name="fees.dueDate"
+              required
+            />
+          </div>
+          <button type="submit" class="btn">Add Student</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -17,20 +17,13 @@ async function main() {
     await Course.deleteMany({});
     await Subject.deleteMany({});
 
-    // Create users
-    const users = await User.create([
-      { email: "admin@gmail.com", password: "123", role: "admin" },
-      { email: "teacher@gmail.com", password: "123", role: "teacher" },
-      { email: "teacher2@gmail.com", password: "123", role: "teacher" },
-      { email: "teacher3@gmail.com", password: "123", role: "teacher" },
-      { email: "teacher4@gmail.com", password: "123", role: "teacher" },
-      { email: "teacher5@gmail.com", password: "123", role: "teacher" },
-      { email: "student@gmail.com", password: "123", role: "student" },
-      { email: "student2@gmail.com", password: "123", role: "student" },
-      { email: "student3@gmail.com", password: "123", role: "student" },
-      { email: "student4@gmail.com", password: "123", role: "student" },
-      { email: "student5@gmail.com", password: "123", role: "student" },
-    ]);
+    // Create admin user
+    const admin = await User.create({
+      email: "admin@gmail.com",
+      password: "123",
+      role: "admin",
+      profilePicture: "/uploads/profile-pictures/default-img.png",
+    });
 
     // Create courses
     const courses = await Course.create([
@@ -51,72 +44,71 @@ async function main() {
 
     // Create subjects
     const subjects = await Subject.create([
-      { name: "Data Structures", code: "CS101", course: courses[0]._id },
-      { name: "Algorithms", code: "CS102", course: courses[0]._id },
-      { name: "Database Systems", code: "CS103", course: courses[0]._id },
-      { name: "Operating Systems", code: "CS104", course: courses[0]._id },
-      { name: "Computer Networks", code: "CS105", course: courses[0]._id },
-      { name: "Mechanics", code: "ME101", course: courses[1]._id },
-      { name: "Thermodynamics", code: "ME102", course: courses[1]._id },
-      { name: "Marketing", code: "BA101", course: courses[2]._id },
-      { name: "Finance", code: "BA102", course: courses[2]._id },
-      { name: "Accounting", code: "COM101", course: courses[3]._id },
+      { name: "Data Structures", code: "CS101" },
+      { name: "Algorithms", code: "CS102" },
+      { name: "Database Systems", code: "CS103" },
+      { name: "Operating Systems", code: "CS104" },
+      { name: "Computer Networks", code: "CS105" },
+      { name: "Mechanics", code: "ME101" },
+      { name: "Thermodynamics", code: "ME102" },
+      { name: "Marketing", code: "BA101" },
+      { name: "Finance", code: "BA102" },
+      { name: "Accounting", code: "COM101" },
     ]);
 
-    // Create teachers
+    // Create teachers and their user accounts
     const teachers = await Teacher.create([
       {
-        user: users[1]._id,
         name: "John Smith",
         email: "teacher1@gmail.com",
-        courses: [courses[0]._id],
+        password: "123",
         subjects: [subjects[0]._id, subjects[1]._id],
       },
       {
-        user: users[2]._id,
         name: "Sarah Johnson",
         email: "teacher2@gmail.com",
-        courses: [courses[0]._id],
+        password: "123",
         subjects: [subjects[2]._id, subjects[3]._id],
       },
       {
-        user: users[3]._id,
         name: "Michael Brown",
         email: "teacher3@gmail.com",
-        courses: [courses[1]._id],
+        password: "123",
         subjects: [subjects[5]._id, subjects[6]._id],
       },
       {
-        user: users[4]._id,
         name: "Emily Davis",
         email: "teacher4@gmail.com",
-        courses: [courses[2]._id],
+        password: "123",
         subjects: [subjects[7]._id, subjects[8]._id],
       },
       {
-        user: users[5]._id,
         name: "Robert Wilson",
         email: "teacher5@gmail.com",
-        courses: [courses[3]._id],
+        password: "123",
         subjects: [subjects[9]._id],
       },
     ]);
 
-    // Update subjects with teacher references
-    await Subject.updateMany(
-      { _id: { $in: subjects.map((s) => s._id) } },
-      { $set: { teacher: teachers[0]._id } }
-    );
+    // Create user accounts for teachers
+    for (const teacher of teachers) {
+      await User.create({
+        email: teacher.email,
+        password: teacher.password,
+        role: "teacher",
+        teacher: teacher._id,
+        profilePicture: "default-img.png",
+      });
+    }
 
     // Create students
     const students = await Student.create([
       {
-        user: users[6]._id,
         name: "Alice Johnson",
         rollNumber: "CS2023001",
         email: "student1@gmail.com",
+        password: "123",
         course: courses[0]._id,
-        subjects: [subjects[0]._id, subjects[1]._id],
         results: [
           { subject: subjects[0]._id, marksObtained: 85, totalMarks: 100 },
           { subject: subjects[1]._id, marksObtained: 78, totalMarks: 100 },
@@ -130,12 +122,11 @@ async function main() {
         attendance: { total: 100, attended: 95 },
       },
       {
-        user: users[7]._id,
         name: "Bob Wilson",
         rollNumber: "CS2023002",
         email: "student2@gmail.com",
+        password: "123",
         course: courses[0]._id,
-        subjects: [subjects[2]._id, subjects[3]._id],
         results: [
           { subject: subjects[2]._id, marksObtained: 92, totalMarks: 100 },
           { subject: subjects[3]._id, marksObtained: 88, totalMarks: 100 },
@@ -149,12 +140,11 @@ async function main() {
         attendance: { total: 100, attended: 90 },
       },
       {
-        user: users[8]._id,
         name: "Carol Davis",
         rollNumber: "ME2023001",
         email: "student3@gmail.com",
+        password: "123",
         course: courses[1]._id,
-        subjects: [subjects[5]._id, subjects[6]._id],
         results: [
           { subject: subjects[5]._id, marksObtained: 75, totalMarks: 100 },
           { subject: subjects[6]._id, marksObtained: 82, totalMarks: 100 },
@@ -167,12 +157,11 @@ async function main() {
         attendance: { total: 100, attended: 85 },
       },
       {
-        user: users[9]._id,
         name: "David Miller",
         rollNumber: "BA2023001",
         email: "student4@gmail.com",
+        password: "123",
         course: courses[2]._id,
-        subjects: [subjects[7]._id, subjects[8]._id],
         results: [
           { subject: subjects[7]._id, marksObtained: 88, totalMarks: 100 },
           { subject: subjects[8]._id, marksObtained: 91, totalMarks: 100 },
@@ -186,12 +175,11 @@ async function main() {
         attendance: { total: 100, attended: 98 },
       },
       {
-        user: users[10]._id,
         name: "Eve Thompson",
         rollNumber: "COM2023001",
         email: "student5@gmail.com",
+        password: "123",
         course: courses[3]._id,
-        subjects: [subjects[9]._id],
         results: [
           { subject: subjects[9]._id, marksObtained: 95, totalMarks: 100 },
         ],
@@ -204,6 +192,17 @@ async function main() {
         attendance: { total: 100, attended: 100 },
       },
     ]);
+
+    // Create user accounts for students
+    for (const student of students) {
+      await User.create({
+        email: student.email,
+        password: student.password,
+        role: "student",
+        student: student._id,
+        profilePicture: "default-img.png",
+      });
+    }
 
     console.log("Database initialized successfully!");
     process.exit(0);
